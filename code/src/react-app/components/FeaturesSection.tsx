@@ -13,6 +13,9 @@ import {
   Users
 } from 'lucide-react';
 
+const TRADING_TOOLS_FORM_URL = 'https://tjp5ilm5y7r3.jp.larksuite.com/share/base/form/shrjpnOmomuzQevotfpALpO5Ohg';
+const EDUCATION_FORM_URL = 'https://tjp5ilm5y7r3.jp.larksuite.com/share/base/form/shrjpOVO5AKfhEVLxRDOGJyQC0f';
+
 const features = [
   {
     icon: GraduationCap,
@@ -20,18 +23,21 @@ const features = [
     description: 'Join real-time trading sessions with expert mentors. Watch, learn, and trade alongside professionals in live market conditions.',
     category: 'Education',
     highlight: true,
+    href: EDUCATION_FORM_URL,
   },
   {
     icon: BookOpen,
     title: 'Foundation Course',
     description: 'Master the fundamentals of Forex and Crypto trading. Learn market structure, analysis techniques, and the core FXDC methodology.',
     category: 'Education',
+    href: EDUCATION_FORM_URL,
   },
   {
     icon: Trophy,
     title: 'Masterclass Program',
     description: 'Advanced strategies and trading methods for serious traders. Deep-dive into institutional techniques and high-probability setups.',
     category: 'Education',
+    href: EDUCATION_FORM_URL,
   },
   {
     icon: Bell,
@@ -39,18 +45,21 @@ const features = [
     description: 'Get free daily signals plus exclusive VIP alerts with precise entry, stop-loss, and take-profit levels from our analysis team.',
     category: 'Trading Tools',
     highlight: true,
+    href: TRADING_TOOLS_FORM_URL,
   },
   {
     icon: Bot,
     title: 'Automated Trading Bots',
     description: 'Set up Expert Advisors (EA) to trade 24/7. We help you configure and optimize automated trading systems for consistent results.',
     category: 'Trading Tools',
+    href: TRADING_TOOLS_FORM_URL,
   },
   {
     icon: Briefcase,
     title: 'Account Management',
     description: 'Let our experienced traders manage your capital. Professional AUM services with transparent reporting and competitive returns.',
     category: 'Asset Management',
+    href: TRADING_TOOLS_FORM_URL,
   },
   {
     icon: Rocket,
@@ -103,43 +112,64 @@ export default function FeaturesSection() {
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className={`group relative bg-card rounded-2xl border transition-all duration-300 hover:border-primary/50 ${
-                feature.highlight 
-                  ? 'border-primary/30 shadow-lg shadow-primary/5' 
-                  : 'border-border'
-              }`}
-            >
-              {/* Highlight Badge */}
-              {feature.highlight && (
-                <div className="absolute -top-3 left-6 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-                  Popular
+          {features.map((feature) => {
+            const cardClassName = `group relative bg-card rounded-2xl border transition-all duration-300 hover:border-primary/50 block ${
+              feature.highlight
+                ? 'border-primary/30 shadow-lg shadow-primary/5'
+                : 'border-border'
+            }${feature.href ? ' cursor-pointer' : ''}`;
+
+            const cardContent = (
+              <>
+                {/* Highlight Badge */}
+                {feature.highlight && (
+                  <div className="absolute -top-3 left-6 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
+                    Popular
+                  </div>
+                )}
+
+                <div className="p-6 lg:p-8">
+                  {/* Category Tag */}
+                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    {feature.category}
+                  </span>
+
+                  {/* Icon */}
+                  <div className="mt-4 mb-4 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:glow-primary transition-all duration-300">
+                    <feature.icon className="w-6 h-6 text-primary" />
+                  </div>
+
+                  {/* Content */}
+                  <h3 className="font-display text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
-              )}
-              
-              <div className="p-6 lg:p-8">
-                {/* Category Tag */}
-                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  {feature.category}
-                </span>
-                
-                {/* Icon */}
-                <div className="mt-4 mb-4 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:glow-primary transition-all duration-300">
-                  <feature.icon className="w-6 h-6 text-primary" />
-                </div>
-                
-                {/* Content */}
-                <h3 className="font-display text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {feature.description}
-                </p>
+              </>
+            );
+
+            if (feature.href) {
+              return (
+                <a
+                  key={feature.title}
+                  href={feature.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cardClassName}
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            return (
+              <div key={feature.title} className={cardClassName}>
+                {cardContent}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Bottom Stats */}
