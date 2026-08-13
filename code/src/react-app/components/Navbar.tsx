@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Menu, X, TrendingUp } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/react-app/components/ui/button';
+import Logo from '@/react-app/components/Logo';
 
 const navLinks = [
   { label: 'Courses', href: '#courses' },
@@ -17,10 +18,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center group-hover:glow-primary transition-all duration-300">
-              <TrendingUp className="w-5 h-5 text-primary" />
-            </div>
+          <a href="#" className="flex items-center gap-2.5 group">
+            <Logo className="h-10 w-10 lg:h-11 lg:w-11" />
             <span className="font-display font-bold text-xl tracking-tight">
               FXDC <span className="text-primary">Academy</span>
             </span>

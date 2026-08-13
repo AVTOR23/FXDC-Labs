@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { 
   GraduationCap, 
   BookOpen, 
@@ -13,9 +14,6 @@ import {
   Users
 } from 'lucide-react';
 
-const TRADING_TOOLS_FORM_URL = 'https://tjp5ilm5y7r3.jp.larksuite.com/share/base/form/shrjpnOmomuzQevotfpALpO5Ohg';
-const EDUCATION_FORM_URL = 'https://tjp5ilm5y7r3.jp.larksuite.com/share/base/form/shrjpOVO5AKfhEVLxRDOGJyQC0f';
-
 const features = [
   {
     icon: GraduationCap,
@@ -23,21 +21,24 @@ const features = [
     description: 'Join real-time trading sessions with expert mentors. Watch, learn, and trade alongside professionals in live market conditions.',
     category: 'Education',
     highlight: true,
-    href: EDUCATION_FORM_URL,
+    href: '/education',
+    internal: true,
   },
   {
     icon: BookOpen,
     title: 'Foundation Course',
     description: 'Master the fundamentals of Forex and Crypto trading. Learn market structure, analysis techniques, and the core FXDC methodology.',
     category: 'Education',
-    href: EDUCATION_FORM_URL,
+    href: '/education',
+    internal: true,
   },
   {
     icon: Trophy,
     title: 'Masterclass Program',
     description: 'Advanced strategies and trading methods for serious traders. Deep-dive into institutional techniques and high-probability setups.',
     category: 'Education',
-    href: EDUCATION_FORM_URL,
+    href: '/education',
+    internal: true,
   },
   {
     icon: Bell,
@@ -45,21 +46,24 @@ const features = [
     description: 'Get free daily signals plus exclusive VIP alerts with precise entry, stop-loss, and take-profit levels from our analysis team.',
     category: 'Trading Tools',
     highlight: true,
-    href: TRADING_TOOLS_FORM_URL,
+    href: '/trading-tools',
+    internal: true,
   },
   {
     icon: Bot,
     title: 'Automated Trading Bots',
     description: 'Set up Expert Advisors (EA) to trade 24/7. We help you configure and optimize automated trading systems for consistent results.',
     category: 'Trading Tools',
-    href: TRADING_TOOLS_FORM_URL,
+    href: '/trading-tools',
+    internal: true,
   },
   {
     icon: Briefcase,
     title: 'Account Management',
     description: 'Let our experienced traders manage your capital. Professional AUM services with transparent reporting and competitive returns.',
     category: 'Asset Management',
-    href: TRADING_TOOLS_FORM_URL,
+    href: '/trading-tools',
+    internal: true,
   },
   {
     icon: Rocket,
@@ -151,6 +155,14 @@ export default function FeaturesSection() {
             );
 
             if (feature.href) {
+              if ('internal' in feature && feature.internal) {
+                return (
+                  <Link key={feature.title} to={feature.href} className={cardClassName}>
+                    {cardContent}
+                  </Link>
+                );
+              }
+
               return (
                 <a
                   key={feature.title}
