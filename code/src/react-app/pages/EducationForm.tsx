@@ -2,6 +2,7 @@ import { FormEvent, ReactNode, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { Check, Loader2 } from 'lucide-react';
 import { EducationApplicationSchema } from '@/shared/types';
+import { apiRequest } from '@/react-app/lib/api';
 
 const THEME = '#465399';
 
@@ -194,14 +195,10 @@ export default function EducationForm() {
 
     setSubmitting(true);
     try {
-      const response = await fetch('/api/education-applications', {
+      await apiRequest('/api/education-applications', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed.data),
       });
-      if (!response.ok) {
-        throw new Error('Could not submit the form. Please try again.');
-      }
       setSubmitted(true);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Could not submit the form.');

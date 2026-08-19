@@ -2,6 +2,7 @@ import { FormEvent, ReactNode, useState } from 'react';
 import { Link } from 'react-router';
 import { Check, Loader2 } from 'lucide-react';
 import { TradingToolsApplicationSchema } from '@/shared/types';
+import { apiRequest } from '@/react-app/lib/api';
 
 const THEME = '#3370FF';
 
@@ -169,14 +170,10 @@ export default function TradingToolsForm() {
 
     setSubmitting(true);
     try {
-      const response = await fetch('/api/trading-tools-applications', {
+      await apiRequest('/api/trading-tools-applications', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed.data),
       });
-      if (!response.ok) {
-        throw new Error('Could not submit the form. Please try again.');
-      }
       setSubmitted(true);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Could not submit the form.');

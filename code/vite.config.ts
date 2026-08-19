@@ -8,6 +8,12 @@ export default defineConfig({
   plugins: [...mochaPlugins(process.env as any), react()],
   server: {
     allowedHosts: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     chunkSizeWarningLimit: 5000,

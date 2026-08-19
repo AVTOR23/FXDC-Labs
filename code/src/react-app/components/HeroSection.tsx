@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { ArrowRight, Play, Users, Award, BarChart3 } from 'lucide-react';
 import { Button } from '@/react-app/components/ui/button';
 
@@ -63,13 +64,17 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-              <Button size="lg" className="glow-primary text-base px-8">
-                Enroll Now
-                <ArrowRight className="w-5 h-5 ml-2" />
+              <Button size="lg" className="glow-primary text-base px-8" asChild>
+                <Link to="/education">
+                  Enroll Now
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-base px-8 group">
-                <Play className="w-5 h-5 mr-2 group-hover:text-primary transition-colors" />
-                Watch Free Lesson
+              <Button size="lg" variant="outline" className="text-base px-8 group" asChild>
+                <Link to="/trading-tools">
+                  <Play className="w-5 h-5 mr-2 group-hover:text-primary transition-colors" />
+                  Watch Free Lesson
+                </Link>
               </Button>
             </div>
 

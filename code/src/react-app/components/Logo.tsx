@@ -5,7 +5,7 @@ export default function Logo({ className }: { className?: string }) {
     <img
       src="/logo.png"
       alt="FXDC Academy"
-      className={cn('h-10 w-10 rounded-lg object-cover', className)}
+      className={cn('h-10 w-10 object-contain', className)}
     />
   );
 }
