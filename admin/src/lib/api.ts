@@ -1,6 +1,8 @@
 const TOKEN_KEY = "fxdc_admin_token";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "";
+const API_BASE =
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.DEV ? "" : "https://fxdc-camp.onrender.com");
 
 export type ApiSuccess<T> = {
   ok: boolean;

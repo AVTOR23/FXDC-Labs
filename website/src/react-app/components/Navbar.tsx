@@ -20,6 +20,10 @@ const navLinks = [
   { label: "Contact", href: "/#contact" },
 ];
 
+const ADMIN_DASHBOARD_URL =
+  import.meta.env.VITE_ADMIN_URL ??
+  (import.meta.env.DEV ? "http://localhost:5174" : "https://fxdc-camp.vercel.app");
+
 function initials(name: string) {
   return name
     .split(" ")
@@ -70,7 +74,7 @@ export default function Navbar() {
                   <DropdownMenuSeparator />
                   {isAdmin && (
                     <DropdownMenuItem asChild>
-                      <a href={import.meta.env.VITE_ADMIN_URL ?? "http://localhost:5174"}>
+                      <a href={ADMIN_DASHBOARD_URL}>
                         Admin dashboard
                       </a>
                     </DropdownMenuItem>
@@ -124,7 +128,7 @@ export default function Navbar() {
                 <>
                   {isAdmin && (
                     <Button variant="ghost" size="sm" className="w-full justify-center" asChild>
-                      <a href={import.meta.env.VITE_ADMIN_URL ?? "http://localhost:5174"}>
+                      <a href={ADMIN_DASHBOARD_URL}>
                         Admin dashboard
                       </a>
                     </Button>
