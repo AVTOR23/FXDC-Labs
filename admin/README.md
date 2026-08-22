@@ -1,6 +1,6 @@
 # FXDC Admin
 
-Separate admin dashboard. Website stays in `code/`. API stays in `backend/`.
+Separate admin dashboard. Website stays in `website/`. API stays in `backend/`.
 
 ```bash
 npm install
