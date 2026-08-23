@@ -201,7 +201,7 @@ export default function TradingToolsForm() {
             className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[#646A73] transition-colors hover:text-[#3370FF]"
           >
             <img src="/logo.png" alt="" className="h-8 w-8 rounded-md object-cover" />
-            Back to FXDC Academy
+            Back to FXDC Labs
           </Link>
 
           <img

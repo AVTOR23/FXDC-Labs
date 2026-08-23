@@ -226,7 +226,7 @@ export default function EducationForm() {
             className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[#646A73] transition-colors hover:text-[#465399]"
           >
             <img src="/logo.png" alt="" className="h-8 w-8 rounded-md object-cover" />
-            Back to FXDC Academy
+            Back to FXDC Labs
           </Link>
 
           <img
@@ -247,7 +247,7 @@ export default function EducationForm() {
                 Submitted
               </h1>
               <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-[#646A73]">
-                Welcome to FXDC Academy -{'\n'}
+                Welcome to FXDC Labs -{'\n'}
                 Our team will connect surely, once majority vote filed completed. Thank you!
               </p>
               <Link

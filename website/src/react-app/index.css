@@ -101,6 +101,25 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .marquee-track {
+    animation: marquee 28s linear infinite;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
 }
 
 
