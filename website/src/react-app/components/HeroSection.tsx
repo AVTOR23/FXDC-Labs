@@ -51,10 +51,14 @@ export default function HeroSection() {
             </div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
-              Master the Art of
-              <span className="block text-gradient">Forex & Crypto</span>
-              Trading
+            <h1 className="mb-6 flex flex-col items-center lg:items-start gap-1 font-display font-bold leading-tight">
+              <span className="text-4xl sm:text-5xl lg:text-6xl">Master the Art</span>
+              <span className="text-2xl sm:text-3xl font-medium text-primary" aria-hidden="true">
+                —
+              </span>
+              <span className="text-gradient text-[1.85rem] sm:text-4xl lg:text-5xl xl:text-[3.25rem]">
+                Financial Markets
+              </span>
             </h1>
 
             {/* Subheadline */}

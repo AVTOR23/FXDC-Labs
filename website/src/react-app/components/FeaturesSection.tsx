@@ -11,19 +11,12 @@ import {
   Megaphone, 
   ArrowLeftRight,
   Sparkles,
-  Users
+  Users,
+  Crown
 } from 'lucide-react';
 
 const features = [
-  {
-    icon: GraduationCap,
-    title: 'Live Trading Workshops',
-    description: 'Join real-time trading sessions with expert mentors. Watch, learn, and trade alongside professionals in live market conditions.',
-    category: 'Education',
-    highlight: true,
-    href: '/education',
-    internal: true,
-  },
+  
   {
     icon: BookOpen,
     title: 'Foundation Course',
@@ -33,11 +26,49 @@ const features = [
     internal: true,
   },
   {
-    icon: Trophy,
+    icon: Crown,
     title: 'Masterclass Program',
-    description: 'Advanced strategies and trading methods for serious traders. Deep-dive into institutional techniques and high-probability setups.',
+    description:
+      'Discover the new level of Institutional grade technical trading approach and more comprehensive learning strategy method.',
     category: 'Education',
     href: '/education',
+    internal: true,
+  },
+  {
+    icon: Trophy,
+    title: 'Advance Program',
+    description:
+      'The Advanced Program is an elite technical framework designed to take you beyond basic retail patterns. Master market microstructure, order flow mechanics, and institutional liquidity profiling to execute with high-probability precision.',
+    category: 'Education',
+    href: '/education',
+    internal: true,
+  },
+  {
+    icon: Trophy,
+    title: 'Enhancement Program',
+    description: 'Soon to Come — Early Access Program',
+    category: 'Education',
+    href: '/education',
+    internal: true,
+    badge: 'Coming soon',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Live Trading Workshops',
+    description: 'Join real-time trading sessions with expert mentors. Watch, learn, and trade alongside professionals in live market conditions.',
+    category: 'Education',
+    highlight: true,
+    href: '/education',
+    internal: true,
+  },
+  
+  {
+    icon: Bot,
+    title: 'Automated Trading Service CEX - MT5',
+    description:
+      'Fully automated trading bots that helps you configure, optimize & analyze with high precision trading set-up within particular financial instruments. By our expert a.i algorithmic, we deploy backtested and live account data record for consistent profitable results 24/5 or 24/7 via MT5 or CEX.',
+    category: 'Trading Tools',
+    href: '/trading-tools',
     internal: true,
   },
   {
@@ -46,14 +77,6 @@ const features = [
     description: 'Get free daily signals plus exclusive VIP alerts with precise entry, stop-loss, and take-profit levels from our analysis team.',
     category: 'Trading Tools',
     highlight: true,
-    href: '/trading-tools',
-    internal: true,
-  },
-  {
-    icon: Bot,
-    title: 'Automated Trading Bots',
-    description: 'Set up Expert Advisors (EA) to trade 24/7. We help you configure and optimize automated trading systems for consistent results.',
-    category: 'Trading Tools',
     href: '/trading-tools',
     internal: true,
   },
@@ -118,7 +141,7 @@ export default function FeaturesSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {features.map((feature) => {
             const cardClassName = `group relative bg-card rounded-2xl border transition-all duration-300 hover:border-primary/50 block ${
-              feature.highlight
+              feature.highlight || ('badge' in feature && feature.badge)
                 ? 'border-primary/30 shadow-lg shadow-primary/5'
                 : 'border-border'
             }${feature.href ? ' cursor-pointer' : ''}`;
@@ -126,9 +149,9 @@ export default function FeaturesSection() {
             const cardContent = (
               <>
                 {/* Highlight Badge */}
-                {feature.highlight && (
+                {(feature.highlight || ('badge' in feature && feature.badge)) && (
                   <div className="absolute -top-3 left-6 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-                    Popular
+                    {'badge' in feature && feature.badge ? feature.badge : 'Popular'}
                   </div>
                 )}
 
