@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/react-app/components/ui/button";
 import Logo from "@/react-app/components/Logo";
 import { useAuth } from "@/react-app/lib/auth";
@@ -13,16 +13,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/react-app/components/ui/dropdown-menu";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/react-app/components/ui/collapsible";
 
-const navLinks = [
-  { label: "Courses", href: "/#courses", id: "courses" },
-  { label: "Features", href: "/#features", id: "features" },
-  { label: "Crypto as Service", to: "/trading-tools", id: "trading-tools" },
-  { label: "Contact", href: "/#contact", id: "contact" },
-  { label: "Discover", to: "/education", id: "education" },
+const cryptoLinks = [
+  { label: "Buy / Sell Crypto", to: "/buy-sell-crypto" },
+  { label: "OTC Crypto", to: "/otc-crypto" },
+  { label: "Token Listing", to: "/token-listing" },
+  { label: "Crypto Airdrop", to: "/crypto-airdrop" },
+  { label: "Web3 Sandbox", to: "/web3-sandbox" },
 ] as const;
 
-type NavLink = (typeof navLinks)[number];
+const discoverLinks = [
+  { label: "MarketPlace", to: "/marketplace" },
+  { label: "Leader Board", to: "/leaderboard" },
+  { label: "Community Feed", to: "/community-feed" },
+] as const;
+
+const navItems = [
+  { kind: "link" as const, label: "Courses", href: "/#courses", id: "courses" },
+  { kind: "link" as const, label: "Features", href: "/#features", id: "features" },
+  { kind: "menu" as const, label: "Crypto as Service", links: cryptoLinks },
+  { kind: "menu" as const, label: "Discover", links: discoverLinks },
+  { kind: "route" as const, label: "Contact", to: "/contact" },
+];
+
+type NavHashLink = Extract<(typeof navItems)[number], { kind: "link" }>;
+type NavRoute = Extract<(typeof navItems)[number], { kind: "route" }>;
+type MenuLink = { label: string; to: string };
+type NavItem = (typeof navItems)[number];
 
 const ADMIN_DASHBOARD_URL =
   import.meta.env.VITE_ADMIN_URL ??
@@ -37,45 +59,199 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-function isLinkActive(link: NavLink, pathname: string, hash: string) {
-  if ("to" in link) {
-    return pathname === link.to;
-  }
-
+function isHashActive(link: NavHashLink, pathname: string, hash: string) {
   return pathname === "/" && hash === `#${link.id}`;
 }
 
-function NavLinkItem({
-  link,
-  active,
-  onNavigate,
-  className,
-}: {
-  link: NavLink;
-  active: boolean;
-  onNavigate?: () => void;
-  className?: string;
-}) {
-  const classes = cn(
+function navItemClass(active: boolean, className?: string) {
+  return cn(
     "text-sm font-medium transition-colors px-3 py-1.5 rounded-md",
     active
       ? "bg-emerald-300/90 text-black"
       : "text-muted-foreground hover:text-foreground",
     className
   );
+}
 
-  if ("to" in link) {
+function isMenuActive(links: readonly MenuLink[], pathname: string) {
+  return links.some((item) => pathname === item.to);
+}
+
+function NavHashLinkItem({
+  link,
+  active,
+  onNavigate,
+  className,
+}: {
+  link: NavHashLink;
+  active: boolean;
+  onNavigate?: () => void;
+  className?: string;
+}) {
+  return (
+    <a href={link.href} onClick={onNavigate} className={navItemClass(active, className)}>
+      {link.label}
+    </a>
+  );
+}
+
+function NavRouteItem({
+  link,
+  active,
+  onNavigate,
+  className,
+}: {
+  link: NavRoute;
+  active: boolean;
+  onNavigate?: () => void;
+  className?: string;
+}) {
+  return (
+    <Link to={link.to} onClick={onNavigate} className={navItemClass(active, className)}>
+      {link.label}
+    </Link>
+  );
+}
+
+function renderNavItem({
+  item,
+  pathname,
+  hash,
+  onNavigate,
+  className,
+  mobile,
+}: {
+  item: NavItem;
+  pathname: string;
+  hash: string;
+  onNavigate?: () => void;
+  className?: string;
+  mobile?: boolean;
+}) {
+  if (item.kind === "menu") {
+    return mobile && onNavigate ? (
+      <MobileNavDropdown
+        key={item.label}
+        label={item.label}
+        links={item.links}
+        pathname={pathname}
+        onNavigate={onNavigate}
+      />
+    ) : (
+      <NavDropdown key={item.label} label={item.label} links={item.links} pathname={pathname} />
+    );
+  }
+
+  if (item.kind === "route") {
     return (
-      <Link to={link.to} className={classes} onClick={onNavigate}>
-        {link.label}
-      </Link>
+      <NavRouteItem
+        key={item.label}
+        link={item}
+        active={pathname === item.to}
+        onNavigate={onNavigate}
+        className={className}
+      />
     );
   }
 
   return (
-    <a href={link.href} className={classes} onClick={onNavigate}>
-      {link.label}
-    </a>
+    <NavHashLinkItem
+      key={item.label}
+      link={item}
+      active={isHashActive(item, pathname, hash)}
+      onNavigate={onNavigate}
+      className={className}
+    />
+  );
+}
+
+function NavDropdown({
+  label,
+  links,
+  pathname,
+  onNavigate,
+}: {
+  label: string;
+  links: readonly MenuLink[];
+  pathname: string;
+  onNavigate?: () => void;
+}) {
+  const active = isMenuActive(links, pathname);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className={cn(
+          "group inline-flex items-center gap-1 text-sm font-medium transition-colors px-3 py-1.5 rounded-md outline-none",
+          active
+            ? "bg-emerald-300/90 text-black"
+            : "text-muted-foreground hover:text-foreground"
+        )}
+      >
+        {label}
+        <ChevronDown className="size-4 transition-transform group-data-[state=open]:rotate-180" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-56">
+        {links.map((item) => (
+          <DropdownMenuItem key={item.to} asChild>
+            <Link
+              to={item.to}
+              onClick={onNavigate}
+              className={cn(pathname === item.to && "bg-accent")}
+            >
+              {item.label}
+            </Link>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function MobileNavDropdown({
+  label,
+  links,
+  pathname,
+  onNavigate,
+}: {
+  label: string;
+  links: readonly MenuLink[];
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const active = isMenuActive(links, pathname);
+
+  return (
+    <Collapsible defaultOpen={active}>
+      <CollapsibleTrigger
+        className={cn(
+          "group flex w-fit items-center gap-1 text-sm font-medium transition-colors px-3 py-1.5 rounded-md",
+          active
+            ? "bg-emerald-300/90 text-black"
+            : "text-muted-foreground hover:text-foreground"
+        )}
+      >
+        {label}
+        <ChevronDown className="size-4 transition-transform group-data-[state=open]:rotate-180" />
+      </CollapsibleTrigger>
+      <CollapsibleContent className="mt-1 ml-3 space-y-1 border-l border-border pl-3">
+        {links.map((item) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            onClick={onNavigate}
+            className={cn(
+              "block w-fit text-sm font-medium transition-colors px-3 py-1.5 rounded-md",
+              pathname === item.to
+                ? "bg-emerald-300/90 text-black"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
 
@@ -108,13 +284,9 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-2 xl:gap-3">
-            {navLinks.map((link) => (
-              <NavLinkItem
-                key={link.label}
-                link={link}
-                active={isLinkActive(link, pathname, hash)}
-              />
-            ))}
+            {navItems.map((item) =>
+              renderNavItem({ item, pathname, hash })
+            )}
           </div>
 
           <div className="hidden md:flex items-center gap-5 lg:gap-6">
@@ -159,7 +331,7 @@ export default function Navbar() {
                   Sign In
                 </Link>
                 <Button size="sm" className="rounded-full px-5 glow-primary" asChild>
-                  <Link to="/sign-up">Start Learning</Link>
+                  <Link to="/sign-up">Join Waitlist</Link>
                 </Button>
               </>
             )}
@@ -178,15 +350,16 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-card border-b border-border">
           <div className="px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <NavLinkItem
-                key={link.label}
-                link={link}
-                active={isLinkActive(link, pathname, hash)}
-                onNavigate={closeMenu}
-                className="block w-fit"
-              />
-            ))}
+            {navItems.map((item) =>
+              renderNavItem({
+                item,
+                pathname,
+                hash,
+                onNavigate: closeMenu,
+                className: "block w-fit",
+                mobile: true,
+              })
+            )}
             <div className="pt-4 flex flex-col gap-2 border-t border-border">
               {user ? (
                 <>
@@ -213,7 +386,7 @@ export default function Navbar() {
                   </Button>
                   <Button size="sm" className="w-full justify-center rounded-full glow-primary" asChild>
                     <Link to="/sign-up" onClick={closeMenu}>
-                      Start Learning
+                      Join Waitlist
                     </Link>
                   </Button>
                 </>

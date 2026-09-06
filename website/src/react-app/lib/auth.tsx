@@ -4,8 +4,11 @@ import { apiRequest, getStoredToken, setStoredToken } from "@/react-app/lib/api"
 export type AuthUser = {
   id: string;
   name: string;
+  username: string;
   email: string;
   phone: string;
+  telegramWhatsapp: string;
+  referralUsername: string;
   avatarUrl: string;
   role: "user" | "admin" | "superadmin";
   status: "active" | "banned";
@@ -19,8 +22,10 @@ type AuthContextValue = {
   login: (email: string, password: string) => Promise<AuthUser>;
   register: (input: {
     name: string;
+    username: string;
     email: string;
-    phone?: string;
+    telegramWhatsapp?: string;
+    referralUsername?: string;
     password: string;
     confirmPassword: string;
   }) => Promise<AuthUser>;

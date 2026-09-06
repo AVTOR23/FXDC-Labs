@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { GraduationCap, Image, Users, Wrench } from "lucide-react";
+import { GraduationCap, CreditCard, Image, Mail, Users, Wrench } from "lucide-react";
 import { apiRequest } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 
@@ -16,7 +16,9 @@ type Stats = {
   users: { total: number; admins: number };
   education: StatusCounts;
   tradingTools: StatusCounts;
+  contact: StatusCounts;
   media: { total: number };
+  payments: { total: number; pendingReview: number };
 };
 
 export default function Dashboard() {
@@ -64,12 +66,28 @@ export default function Dashboard() {
       color: "bg-[#FFAB0014] text-[#B76E00]",
     },
     {
+      title: "Contact requests",
+      value: stats.contact?.total ?? 0,
+      detail: `${stats.contact?.pending ?? 0} pending`,
+      href: "/contact",
+      icon: Mail,
+      color: "bg-[#FF563014] text-[#B71D18]",
+    },
+    {
       title: "Media files",
       value: stats.media.total,
       detail: "Cloudinary uploads",
       href: "/media",
       icon: Image,
       color: "bg-[#8E33FF14] text-[#5119B7]",
+    },
+    {
+      title: "CipherBC payments",
+      value: stats.payments.total,
+      detail: `${stats.payments.pendingReview} need review`,
+      href: "/payments",
+      icon: CreditCard,
+      color: "bg-[#22C55E14] text-[#118D57]",
     },
   ];
 

@@ -3,6 +3,11 @@ import { User } from "../models/User.js";
 import { hashPassword } from "../utils/password.js";
 import { logger } from "../utils/logger.js";
 
+function staffUsername(email: string, role: "admin" | "superadmin") {
+  const local = email.split("@")[0]?.toLowerCase().replace(/[^a-z0-9._]/g, "") ?? "";
+  return local.length >= 3 ? local : role;
+}
+
 async function upsertStaff(options: {
   email: string;
   password: string;
@@ -14,6 +19,7 @@ async function upsertStaff(options: {
     { email: options.email.toLowerCase() },
     {
       name: options.name,
+      username: staffUsername(options.email, options.role),
       email: options.email.toLowerCase(),
       passwordHash,
       role: options.role,

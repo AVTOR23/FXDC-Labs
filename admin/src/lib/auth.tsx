@@ -4,8 +4,11 @@ import { apiRequest, getStoredToken, setStoredToken } from "@/lib/api";
 export type AuthUser = {
   id: string;
   name: string;
+  username: string;
   email: string;
   phone: string;
+  telegramWhatsapp: string;
+  referralUsername: string;
   avatarUrl: string;
   role: "user" | "admin" | "superadmin";
   status: "active" | "banned";

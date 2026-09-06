@@ -12,10 +12,12 @@ export default function SignUp() {
   const { user, loading, register } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [telegramWhatsapp, setTelegramWhatsapp] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [referralUsername, setReferralUsername] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,8 +36,10 @@ export default function SignUp() {
     try {
       await register({
         name: name.trim(),
+        username: username.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        telegramWhatsapp: telegramWhatsapp.trim(),
+        referralUsername: referralUsername.trim(),
         password,
         confirmPassword,
       });
@@ -65,19 +69,35 @@ export default function SignUp() {
           <Input id="name" value={name} onChange={(event) => setName(event.target.value)} required />
         </div>
         <div className="space-y-2">
+          <Label htmlFor="username">Username</Label>
+          <Input
+            id="username"
+            autoComplete="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            required
+            minLength={3}
+            maxLength={30}
+          />
+        </div>
+        <div className="space-y-2">
           <Label htmlFor="email">Email address</Label>
           <Input
             id="email"
             type="email"
-            autoComplete="username"
+            autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone / WhatsApp</Label>
-          <Input id="phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
+          <Label htmlFor="telegramWhatsapp">Telegram / Whatsapp</Label>
+          <Input
+            id="telegramWhatsapp"
+            value={telegramWhatsapp}
+            onChange={(event) => setTelegramWhatsapp(event.target.value)}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
@@ -99,6 +119,15 @@ export default function SignUp() {
             onChange={(event) => setConfirmPassword(event.target.value)}
             required
             minLength={8}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="referralUsername">Referral Username</Label>
+          <Input
+            id="referralUsername"
+            value={referralUsername}
+            onChange={(event) => setReferralUsername(event.target.value)}
+            maxLength={30}
           />
         </div>
         {error && <p className="text-sm text-destructive">{error}</p>}

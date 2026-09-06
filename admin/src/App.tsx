@@ -7,6 +7,8 @@ import Users from "@/pages/Users";
 import Education from "@/pages/Education";
 import TradingTools from "@/pages/TradingTools";
 import Media from "@/pages/Media";
+import Payments from "@/pages/Payments";
+import Contact from "@/pages/Contact";
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
             <Route path="education" element={<Education />} />
             <Route path="trading-tools" element={<TradingTools />} />
             <Route path="media" element={<Media />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="contact" element={<Contact />} />
           </Route>
         </Routes>
       </AuthProvider>

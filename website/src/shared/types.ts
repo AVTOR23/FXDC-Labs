@@ -36,3 +36,12 @@ export const TradingToolsApplicationSchema = z.object({
 });
 
 export type TradingToolsApplication = z.infer<typeof TradingToolsApplicationSchema>;
+
+export const ContactSubmissionSchema = z.object({
+  name: z.string().trim().min(1, "This field is required"),
+  email: z.string().trim().email("Enter a valid email address"),
+  phone: z.string().trim().min(1, "This field is required"),
+  message: z.string().trim().min(1, "This field is required"),
+});
+
+export type ContactSubmission = z.infer<typeof ContactSubmissionSchema>;

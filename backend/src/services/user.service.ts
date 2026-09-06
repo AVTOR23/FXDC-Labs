@@ -12,7 +12,14 @@ export async function listUsers(query: UserListQuery) {
 
   if (query.search) {
     const pattern = new RegExp(escapeRegex(query.search), "i");
-    filter.$or = [{ name: pattern }, { email: pattern }, { phone: pattern }];
+    filter.$or = [
+      { name: pattern },
+      { username: pattern },
+      { email: pattern },
+      { telegramWhatsapp: pattern },
+      { phone: pattern },
+      { referralUsername: pattern },
+    ];
   }
 
   const skip = (query.page - 1) * query.limit;
@@ -48,6 +55,13 @@ export async function updateUserByAdmin(
   if (actorRole !== "superadmin") {
     if (target.role === "superadmin" || input.role === "superadmin") {
       throw ApiError.forbidden("Only a super admin can change super admin accounts");
+    }
+  }
+
+  if (input.username && input.username !== target.username) {
+    const taken = await User.findOne({ username: input.username, _id: { $ne: id } }).lean();
+    if (taken) {
+      throw ApiError.conflict("This username is already taken");
     }
   }
 

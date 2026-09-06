@@ -35,6 +35,24 @@ import {
   listAdminUsers,
   updateAdminUser,
 } from "../controllers/user.controller.js";
+import {
+  getContact,
+  listContacts,
+  removeContact,
+  updateContact,
+} from "../controllers/contact.controller.js";
+import {
+  getAdminPayment,
+  getAdminPaymentStats,
+  listAdminPaymentEvents,
+  listAdminPayments,
+  patchAdminPayment,
+  resyncAdminPayment,
+} from "../controllers/payment.controller.js";
+import {
+  adminPaymentUpdateSchema,
+  paymentListQuerySchema,
+} from "../validators/payment.validator.js";
 
 const router = Router();
 
@@ -98,5 +116,39 @@ router.delete(
 router.get("/media", validate(paginationQuerySchema, "query"), listUploads);
 router.post("/media", uploadLimiter, uploadImage, uploadMedia);
 router.delete("/media/:id", validate(idParamsSchema, "params"), removeMedia);
+
+router.get(
+  "/contact-submissions",
+  validate(paginationQuerySchema, "query"),
+  listContacts
+);
+router.get(
+  "/contact-submissions/:id",
+  validate(idParamsSchema, "params"),
+  getContact
+);
+router.patch(
+  "/contact-submissions/:id",
+  validate(idParamsSchema, "params"),
+  validate(applicationUpdateSchema),
+  updateContact
+);
+router.delete(
+  "/contact-submissions/:id",
+  validate(idParamsSchema, "params"),
+  removeContact
+);
+
+router.get("/payments/stats", getAdminPaymentStats);
+router.get("/payments", validate(paymentListQuerySchema, "query"), listAdminPayments);
+router.get("/payments/:id/events", validate(idParamsSchema, "params"), listAdminPaymentEvents);
+router.get("/payments/:id", validate(idParamsSchema, "params"), getAdminPayment);
+router.patch(
+  "/payments/:id",
+  validate(idParamsSchema, "params"),
+  validate(adminPaymentUpdateSchema),
+  patchAdminPayment
+);
+router.post("/payments/:id/resync", validate(idParamsSchema, "params"), resyncAdminPayment);
 
 export default router;

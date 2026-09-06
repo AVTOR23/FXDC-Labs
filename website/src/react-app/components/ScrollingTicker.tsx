@@ -1,4 +1,17 @@
-const TICKER_ITEMS = ['Forex', 'Crypto', 'Web3', 'A.I', 'Blockchain'];
+const TICKER_ITEMS = [
+  'Forex',
+  'Crypto',
+  'Web3',
+  'A.I',
+  'Blockchain',
+  'Predictions',
+  'Futures',
+  'Spot',
+  "CFD's",
+  'Stocks',
+  'Commodities',
+  'Indices',
+];
 
 function TickerContent({ id }: { id: string }) {
   return (
@@ -9,7 +22,7 @@ function TickerContent({ id }: { id: string }) {
             {item}
           </span>
           <span className="text-foreground/60" aria-hidden="true">
-            •
+            {item === 'Blockchain' ? '-' : '•'}
           </span>
         </span>
       ))}

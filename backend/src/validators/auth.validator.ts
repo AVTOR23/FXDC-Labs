@@ -6,11 +6,32 @@ export const loginSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters").max(128),
 });
 
+const usernameSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .min(3, "Username must be at least 3 characters")
+  .max(30, "Username is too long")
+  .regex(/^[a-z0-9._]+$/, "Use letters, numbers, dots, or underscores");
+
+const optionalUsernameSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .max(30)
+  .refine((value) => value === "" || /^[a-z0-9._]{3,30}$/.test(value), {
+    message: "Use 3–30 letters, numbers, dots, or underscores",
+  })
+  .optional()
+  .default("");
+
 export const registerSchema = z
   .object({
     name: z.string().trim().min(2, "Name is required").max(120),
+    username: usernameSchema,
     email: z.string().trim().toLowerCase().email("Enter a valid email address").max(254),
-    phone: z.string().trim().max(40).optional().default(""),
+    telegramWhatsapp: z.string().trim().max(80).optional().default(""),
+    referralUsername: optionalUsernameSchema,
     password: z.string().min(8, "Password must be at least 8 characters").max(128),
     confirmPassword: z.string().min(8).max(128),
   })
@@ -21,7 +42,7 @@ export const registerSchema = z
 
 export const updateProfileSchema = z.object({
   name: z.string().trim().min(2).max(120).optional(),
-  phone: z.string().trim().max(40).optional(),
+  telegramWhatsapp: z.string().trim().max(80).optional(),
   avatarUrl: z.string().trim().url().max(500).optional().or(z.literal("")),
 });
 
@@ -46,7 +67,17 @@ export const userListQuerySchema = z.object({
 export const adminUpdateUserSchema = z
   .object({
     name: z.string().trim().min(2).max(120).optional(),
-    phone: z.string().trim().max(40).optional(),
+    username: usernameSchema.optional(),
+    telegramWhatsapp: z.string().trim().max(80).optional(),
+    referralUsername: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .max(30)
+      .refine((value) => value === "" || /^[a-z0-9._]{3,30}$/.test(value), {
+        message: "Use 3–30 letters, numbers, dots, or underscores",
+      })
+      .optional(),
     role: z.enum(USER_ROLES).optional(),
     status: z.enum(USER_STATUSES).optional(),
   })

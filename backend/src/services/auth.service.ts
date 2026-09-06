@@ -26,15 +26,29 @@ function issueSession(user: UserDocument) {
 }
 
 export async function registerUser(input: RegisterInput) {
-  const existing = await User.findOne({ email: input.email }).lean();
-  if (existing) {
+  const existingEmail = await User.findOne({ email: input.email }).lean();
+  if (existingEmail) {
     throw ApiError.conflict("An account with this email already exists");
+  }
+
+  const existingUsername = await User.findOne({ username: input.username }).lean();
+  if (existingUsername) {
+    throw ApiError.conflict("This username is already taken");
+  }
+
+  if (input.referralUsername) {
+    const referrer = await User.findOne({ username: input.referralUsername }).lean();
+    if (!referrer) {
+      throw ApiError.badRequest("Referral username was not found");
+    }
   }
 
   const created = await User.create({
     name: input.name,
+    username: input.username,
     email: input.email,
-    phone: input.phone ?? "",
+    telegramWhatsapp: input.telegramWhatsapp ?? "",
+    referralUsername: input.referralUsername ?? "",
     passwordHash: await hashPassword(input.password),
     role: "user",
     status: "active",

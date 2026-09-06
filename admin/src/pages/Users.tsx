@@ -103,7 +103,7 @@ export default function AdminUsers() {
       <div className="rounded-2xl bg-white p-4 shadow-[0_8px_16px_rgba(145,158,171,0.08)] sm:p-6">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row">
           <Input
-            placeholder="Search name, email or phone"
+            placeholder="Search name, username, email or contact"
             value={search}
             onChange={(event) => {
               setPage(1);
@@ -152,7 +152,8 @@ export default function AdminUsers() {
           <TableHeader>
             <TableRow>
               <TableHead>User</TableHead>
-              <TableHead>Phone</TableHead>
+              <TableHead>Telegram / Whatsapp</TableHead>
+              <TableHead>Referral</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created</TableHead>
@@ -161,13 +162,13 @@ export default function AdminUsers() {
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={5} className="py-10 text-center text-[#637381]">
+                <TableCell colSpan={6} className="py-10 text-center text-[#637381]">
                   Loading users...
                 </TableCell>
               </TableRow>
             ) : items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="py-10 text-center text-[#637381]">
+                <TableCell colSpan={6} className="py-10 text-center text-[#637381]">
                   No users yet
                 </TableCell>
               </TableRow>
@@ -189,11 +190,14 @@ export default function AdminUsers() {
                       </div>
                       <div>
                         <p className="font-semibold">{item.name}</p>
-                        <p className="text-xs text-[#637381]">{item.email}</p>
+                        <p className="text-xs text-[#637381]">
+                          {item.username ? `@${item.username}` : "—"} · {item.email}
+                        </p>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>{item.phone || "—"}</TableCell>
+                  <TableCell>{item.telegramWhatsapp || item.phone || "—"}</TableCell>
+                  <TableCell>{item.referralUsername || "—"}</TableCell>
                   <TableCell className="capitalize">{item.role}</TableCell>
                   <TableCell>
                     <Badge variant={item.status === "active" ? "default" : "destructive"}>
@@ -230,6 +234,17 @@ export default function AdminUsers() {
               <div>
                 <p className="text-sm font-semibold">{selected.name}</p>
                 <p className="text-sm text-[#637381]">{selected.email}</p>
+                <p className="mt-2 text-sm">
+                  <span className="text-[#637381]">Username:</span> {selected.username || "—"}
+                </p>
+                <p className="text-sm">
+                  <span className="text-[#637381]">Telegram / Whatsapp:</span>{" "}
+                  {selected.telegramWhatsapp || selected.phone || "—"}
+                </p>
+                <p className="text-sm">
+                  <span className="text-[#637381]">Referral Username:</span>{" "}
+                  {selected.referralUsername || "—"}
+                </p>
               </div>
               <Select
                 value={selected.role}

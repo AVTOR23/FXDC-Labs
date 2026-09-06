@@ -29,7 +29,7 @@ const courses = [
     originalPrice: '$150',
     cta: 'Start Learning',
     featured: false,
-    href: '/education',
+    href: '/checkout/foundation',
   },
   {
     id: 'masterclass',
@@ -46,7 +46,7 @@ const courses = [
     price: '$885',
     cta: 'Enroll Now',
     featured: true,
-    href: '/education',
+    href: '/checkout/masterclass',
   },
   {
     id: 'advance',
@@ -63,7 +63,7 @@ const courses = [
     price: '$225',
     cta: 'Enroll Now',
     featured: false,
-    href: '/education',
+    href: '/checkout/advance',
   },
   {
     id: 'enhancement',

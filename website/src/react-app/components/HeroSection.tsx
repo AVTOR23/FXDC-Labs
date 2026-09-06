@@ -1,6 +1,8 @@
 import { Link } from 'react-router';
 import { ArrowRight, Play, Users, Award, BarChart3 } from 'lucide-react';
 import { Button } from '@/react-app/components/ui/button';
+import { useAuth } from '@/react-app/lib/auth';
+import { cn } from '@/react-app/lib/utils';
 
 const stats = [
   { icon: Users, value: '5,000+', label: 'Active Traders' },
@@ -9,6 +11,19 @@ const stats = [
 ];
 
 export default function HeroSection() {
+  const { user } = useAuth();
+  const badgeClassName =
+    "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium mb-6";
+  const journeyBadge = (
+    <>
+      <span className="relative flex h-2 w-2">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+      </span>
+      Start my Online Trading Journey Today!
+    </>
+  );
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Effects */}
@@ -42,19 +57,19 @@ export default function HeroSection() {
           {/* Left Content */}
           <div className="text-center lg:text-left">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              Live Trading Workshops Available
-            </div>
+            {user ? (
+              <div className={badgeClassName}>{journeyBadge}</div>
+            ) : (
+              <Link to="/sign-up" className={cn(badgeClassName, "hover:bg-primary/20 transition-colors")}>
+                {journeyBadge}
+              </Link>
+            )}
 
             {/* Headline */}
-            <h1 className="mb-6 flex flex-col items-center lg:items-start gap-1 font-display font-bold leading-tight">
+            <h1 className="mb-6 inline-flex flex-col items-center gap-1 font-display font-bold leading-tight">
               <span className="text-4xl sm:text-5xl lg:text-6xl">Master the Art</span>
-              <span className="text-2xl sm:text-3xl font-medium text-primary" aria-hidden="true">
-                —
+              <span className="text-2xl sm:text-3xl font-medium text-primary">
+                Forex - Crypto
               </span>
               <span className="text-gradient text-[1.85rem] sm:text-4xl lg:text-5xl xl:text-[3.25rem]">
                 Financial Markets

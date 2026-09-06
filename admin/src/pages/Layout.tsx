@@ -4,6 +4,8 @@ import {
   Image,
   LayoutDashboard,
   LogOut,
+  CreditCard,
+  Mail,
   Users,
   Wrench,
 } from "lucide-react";
@@ -15,6 +17,8 @@ const links = [
   { to: "/users", label: "User list", icon: Users, end: false },
   { to: "/education", label: "Education forms", icon: GraduationCap, end: false },
   { to: "/trading-tools", label: "Trading tools forms", icon: Wrench, end: false },
+  { to: "/contact", label: "Contact requests", icon: Mail, end: false },
+  { to: "/payments", label: "CipherBC payments", icon: CreditCard, end: false },
   { to: "/media", label: "File manager", icon: Image, end: false },
 ];
 
