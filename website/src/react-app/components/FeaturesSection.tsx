@@ -168,7 +168,14 @@ export default function FeaturesSection() {
 
                   {/* Content */}
                   <h3 className="font-display text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                    {feature.title}
+                    {feature.title.includes('CEX - MT5') ? (
+                      <>
+                        Automated Trading Service{' '}
+                        <span className="whitespace-nowrap">CEX-MT5</span>
+                      </>
+                    ) : (
+                      feature.title
+                    )}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     {feature.description}
