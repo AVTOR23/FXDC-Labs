@@ -12,6 +12,9 @@ async function start() {
 
   const server = app.listen(env.PORT, () => {
     logger.info(`API listening on http://localhost:${env.PORT}`);
+    if (env.NODE_ENV !== "production") {
+      console.log("[FXDC backend] API started");
+    }
   });
 
   const shutdown = async (signal: string) => {
