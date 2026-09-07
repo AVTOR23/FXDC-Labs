@@ -387,6 +387,46 @@ export async function handleCipherBcCallback(
   return buildCallbackAcknowledgement();
 }
 
+export async function handleCipherBcWithdrawCallback(
+  body: Record<string, unknown>,
+  meta: { sourceIp?: string }
+) {
+  const signature = typeof body.sign === "string" ? body.sign : "";
+  const data =
+    body.data && typeof body.data === "object" && !Array.isArray(body.data)
+      ? (body.data as Record<string, unknown>)
+      : null;
+
+  if (!data) {
+    await recordPaymentEvent({
+      eventType: "signature_failed",
+      sourceIp: meta.sourceIp,
+      signatureValid: false,
+      payload: { reason: "missing_data", channel: "withdraw" },
+    });
+    throw ApiError.badRequest("Invalid callback payload");
+  }
+
+  const signatureValid = verifyCallbackSignature(data, signature);
+  const tradeId = typeof data.trade_id === "string" ? data.trade_id : undefined;
+  const orderId = typeof data.order_id === "string" ? data.order_id : undefined;
+
+  await recordPaymentEvent({
+    merchantOrderId: tradeId ?? orderId,
+    cipherbcOrderNo: tradeId ?? orderId,
+    eventType: signatureValid ? "callback_received" : "signature_failed",
+    sourceIp: meta.sourceIp,
+    signatureValid,
+    payload: { ...data, channel: "withdraw" },
+  });
+
+  if (!signatureValid) {
+    throw ApiError.forbidden("Callback signature verification failed");
+  }
+
+  return buildCallbackAcknowledgement();
+}
+
 export async function listPayments(query: PaymentListQuery) {
   const filter: Record<string, unknown> = { isDeleted: false };
 
