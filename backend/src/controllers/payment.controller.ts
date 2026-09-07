@@ -4,6 +4,7 @@ import {
   getPaymentById,
   getPaymentStats,
   handleCipherBcCallback,
+  handleCipherBcWithdrawCallback,
   listCourses,
   listPaymentEvents,
   listPayments,
@@ -43,6 +44,14 @@ export const getPaymentStatus = asyncHandler(async (req: Request, res: Response)
 
 export const cipherbcWebhook = asyncHandler(async (req: Request, res: Response) => {
   const acknowledgement = await handleCipherBcCallback(req.body as Record<string, unknown>, {
+    sourceIp: req.ip,
+  });
+
+  res.status(200).json(acknowledgement);
+});
+
+export const cipherbcWithdrawWebhook = asyncHandler(async (req: Request, res: Response) => {
+  const acknowledgement = await handleCipherBcWithdrawCallback(req.body as Record<string, unknown>, {
     sourceIp: req.ip,
   });
 

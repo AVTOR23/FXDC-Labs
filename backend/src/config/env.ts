@@ -27,9 +27,13 @@ const EnvSchema = z.object({
   CLOUDINARY_FOLDER: z.string().default("fxdc-camp"),
   CIPHERBC_API_BASE_URL: z.string().url().optional(),
   CIPHERBC_APP_ID: z.string().min(1).optional(),
+  CIPHERBC_MERCHANT_NAME: z.string().min(1).optional(),
   CIPHERBC_MERCHANT_PRIVATE_KEY: z.string().min(1).optional(),
+  CIPHERBC_MERCHANT_PUBLIC_KEY: z.string().min(1).optional(),
   CIPHERBC_PLATFORM_PUBLIC_KEY: z.string().min(1).optional(),
   CIPHERBC_CALLBACK_URL: z.string().url().optional(),
+  CIPHERBC_DEPOSIT_CALLBACK_URL: z.string().url().optional(),
+  CIPHERBC_WITHDRAW_CALLBACK_URL: z.string().url().optional(),
   CIPHERBC_WEBSITE_URL: z.string().url().optional(),
   CIPHERBC_KEY_VERSION: z.string().default("admin"),
   CIPHERBC_WEBHOOK_IP_ALLOWLIST: z.string().optional(),
@@ -61,7 +65,7 @@ export const isCipherBcConfigured = Boolean(
     env.CIPHERBC_APP_ID &&
     env.CIPHERBC_MERCHANT_PRIVATE_KEY &&
     env.CIPHERBC_PLATFORM_PUBLIC_KEY &&
-    env.CIPHERBC_CALLBACK_URL &&
+    (env.CIPHERBC_DEPOSIT_CALLBACK_URL || env.CIPHERBC_CALLBACK_URL) &&
     env.CIPHERBC_WEBSITE_URL
 );
 export const corsOrigins = env.CORS_ORIGIN.split(",")

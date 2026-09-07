@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   cipherbcWebhook,
+  cipherbcWithdrawWebhook,
   createPayment,
   getCourses,
   getPaymentStatus,
@@ -44,6 +45,22 @@ router.post(
   requireCipherBcConfigured,
   verifyCipherBcWebhookSource,
   cipherbcWebhook
+);
+
+router.post(
+  "/webhook/cipherbc/deposit",
+  webhookLimiter,
+  requireCipherBcConfigured,
+  verifyCipherBcWebhookSource,
+  cipherbcWebhook
+);
+
+router.post(
+  "/webhook/cipherbc/withdraw",
+  webhookLimiter,
+  requireCipherBcConfigured,
+  verifyCipherBcWebhookSource,
+  cipherbcWithdrawWebhook
 );
 
 export default router;
