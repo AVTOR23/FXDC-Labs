@@ -9,6 +9,7 @@ import TradingTools from "@/pages/TradingTools";
 import Media from "@/pages/Media";
 import Payments from "@/pages/Payments";
 import Contact from "@/pages/Contact";
+import LearningPath from "@/pages/LearningPath";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="media" element={<Media />} />
             <Route path="payments" element={<Payments />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="learning-path" element={<LearningPath />} />
           </Route>
         </Routes>
       </AuthProvider>

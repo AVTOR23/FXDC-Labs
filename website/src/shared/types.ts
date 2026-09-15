@@ -45,3 +45,43 @@ export const ContactSubmissionSchema = z.object({
 });
 
 export type ContactSubmission = z.infer<typeof ContactSubmissionSchema>;
+
+export const TRAINING_SETUP_OPTIONS = [
+  "Online Class",
+  "Face to Face",
+  "Both are Good",
+] as const;
+
+export const CLASS_SCHEDULE_OPTIONS = [
+  "Saturday 1PM GMT+4",
+  "Saturday 4PM GMT+4",
+  "Sunday 1PM GMT+4",
+] as const;
+
+export const LANGUAGE_OPTIONS = ["English", "Other"] as const;
+
+export const LearningPathApplicationSchema = z
+  .object({
+    name: z.string().trim().min(1, "This field is required"),
+    username: z.string().trim().optional().default(""),
+    telegram: z.string().trim().min(1, "This field is required"),
+    trainingSetup: z.string().min(1, "This field is required"),
+    classSchedule: z.string().min(1, "This field is required"),
+    language: z.string().min(1, "This field is required"),
+    languageOther: z.string().trim().optional().default(""),
+    remarks: z.string().trim().optional().default(""),
+    merchantOrderId: z.string().trim().optional().default(""),
+    paymentAmount: z.string().trim().optional().default(""),
+    courseTitle: z.string().trim().optional().default(""),
+  })
+  .superRefine((data, ctx) => {
+    if (data.language === "Other" && !data.languageOther) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Please specify",
+        path: ["languageOther"],
+      });
+    }
+  });
+
+export type LearningPathApplication = z.infer<typeof LearningPathApplicationSchema>;

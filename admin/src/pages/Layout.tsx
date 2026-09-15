@@ -6,6 +6,7 @@ import {
   LogOut,
   CreditCard,
   Mail,
+  ClipboardList,
   Users,
   Wrench,
 } from "lucide-react";
@@ -18,6 +19,7 @@ const links = [
   { to: "/education", label: "Education forms", icon: GraduationCap, end: false },
   { to: "/trading-tools", label: "Trading tools forms", icon: Wrench, end: false },
   { to: "/contact", label: "Contact requests", icon: Mail, end: false },
+  { to: "/learning-path", label: "Learning path forms", icon: ClipboardList, end: false },
   { to: "/payments", label: "CipherBC payments", icon: CreditCard, end: false },
   { to: "/media", label: "File manager", icon: Image, end: false },
 ];

@@ -5,6 +5,7 @@ import educationApplicationRoutes from "./educationApplication.routes.js";
 import tradingToolsApplicationRoutes from "./tradingToolsApplication.routes.js";
 import paymentRoutes from "./payment.routes.js";
 import contactRoutes from "./contact.routes.js";
+import learningPathApplicationRoutes from "./learningPathApplication.routes.js";
 import adminRoutes from "./admin.routes.js";
 
 const router = Router();
@@ -14,6 +15,7 @@ router.use("/auth", authRoutes);
 router.use("/education-applications", educationApplicationRoutes);
 router.use("/trading-tools-applications", tradingToolsApplicationRoutes);
 router.use("/contact-submissions", contactRoutes);
+router.use("/learning-path-applications", learningPathApplicationRoutes);
 router.use("/payments", paymentRoutes);
 router.use("/admin", adminRoutes);
 

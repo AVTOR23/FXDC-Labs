@@ -10,6 +10,7 @@ import PaymentFailed from "@/react-app/pages/PaymentFailed";
 import PaymentStatus from "@/react-app/pages/PaymentStatus";
 import DiscoverPage from "@/react-app/pages/DiscoverPage";
 import Contact from "@/react-app/pages/Contact";
+import LearningPathApplication from "@/react-app/pages/LearningPathApplication";
 import { AuthProvider } from "@/react-app/lib/auth";
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/checkout/:courseId" element={<Checkout />} />
           <Route path="/payments/success" element={<PaymentSuccess />} />
+          <Route path="/payments/application" element={<LearningPathApplication />} />
           <Route path="/payments/failed" element={<PaymentFailed />} />
           <Route path="/payments/status/:merchantOrderId" element={<PaymentStatus />} />
           <Route path="/marketplace" element={<DiscoverPage />} />

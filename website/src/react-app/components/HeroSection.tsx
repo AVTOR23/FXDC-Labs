@@ -13,14 +13,14 @@ const stats = [
 export default function HeroSection() {
   const { user } = useAuth();
   const badgeClassName =
-    "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium mb-6";
+    "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-bold uppercase tracking-wide mb-6";
   const journeyBadge = (
     <>
       <span className="relative flex h-2 w-2">
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
         <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
       </span>
-      Start my Online Trading Journey Today!
+      START ONLINE TRADING CLASS NOW
     </>
   );
 

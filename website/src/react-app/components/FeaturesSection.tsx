@@ -19,36 +19,36 @@ const features = [
   
   {
     icon: BookOpen,
-    title: 'Foundation Course',
+    title: 'Foundations',
     description: 'Master the fundamentals of Forex and Crypto trading. Learn market structure, analysis techniques, and the core FXDC methodology.',
     category: 'Education',
-    href: '/education',
+    href: '/#courses',
+    internal: true,
+  },
+  {
+    icon: Trophy,
+    title: 'Advanced',
+    description:
+      'The Advanced Program is an elite technical framework designed to take you beyond basic retail patterns. Master market microstructure, order flow mechanics, and institutional liquidity profiling to execute with high-probability precision.',
+    category: 'Education',
+    href: '/#courses',
     internal: true,
   },
   {
     icon: Crown,
-    title: 'Masterclass Program',
+    title: 'Masterclass',
     description:
       'Discover the new level of Institutional grade technical trading approach and more comprehensive learning strategy method.',
     category: 'Education',
-    href: '/education',
+    href: '/#courses',
     internal: true,
   },
   {
     icon: Trophy,
-    title: 'Advance Program',
-    description:
-      'The Advanced Program is an elite technical framework designed to take you beyond basic retail patterns. Master market microstructure, order flow mechanics, and institutional liquidity profiling to execute with high-probability precision.',
-    category: 'Education',
-    href: '/education',
-    internal: true,
-  },
-  {
-    icon: Trophy,
-    title: 'Enhancement Program',
+    title: 'Enhancement',
     description: 'Soon to Come — Early Access Program',
     category: 'Education',
-    href: '/education',
+    href: '/#courses',
     internal: true,
     badge: 'Coming soon',
   },
