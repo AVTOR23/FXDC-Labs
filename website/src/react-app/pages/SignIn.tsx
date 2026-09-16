@@ -79,7 +79,7 @@ export default function SignIn() {
 
       <p className="mt-6 text-center text-sm text-muted-foreground lg:text-left">
         Don&apos;t have an account?{" "}
-        <Link to="/sign-up" className="font-medium text-primary hover:underline">
+        <Link to="/sign-up" state={{ from }} className="font-medium text-primary hover:underline">
           Start Learning
         </Link>
       </p>

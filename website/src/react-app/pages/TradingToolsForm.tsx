@@ -1,8 +1,9 @@
 import { FormEvent, ReactNode, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { Check, Loader2 } from 'lucide-react';
 import { TradingToolsApplicationSchema } from '@/shared/types';
 import { apiRequest } from '@/react-app/lib/api';
+import { useAuth } from '@/react-app/lib/auth';
 
 const THEME = '#3370FF';
 
@@ -137,11 +138,16 @@ function OptionList({
 }
 
 export default function TradingToolsForm() {
+  const { user, loading } = useAuth();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
+
+  if (!loading && user) {
+    return <Navigate to="/account" replace />;
+  }
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));

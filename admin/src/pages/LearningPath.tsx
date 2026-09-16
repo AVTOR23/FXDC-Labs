@@ -7,10 +7,11 @@ export default function LearningPath() {
       endpoint="/api/admin/learning-path-applications"
       columns={[
         { key: "name", label: "Name" },
-        { key: "username", label: "Username" },
+        { key: "email", label: "Email" },
         { key: "telegram", label: "Telegram" },
+        { key: "whatsapp", label: "WhatsApp" },
         { key: "trainingSetup", label: "Set-up" },
-        { key: "classSchedule", label: "Schedule" },
+        { key: "classSchedule", label: "Online class" },
         {
           key: "status",
           label: "Status",

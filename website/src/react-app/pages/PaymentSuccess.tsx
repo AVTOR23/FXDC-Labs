@@ -21,16 +21,16 @@ export default function PaymentSuccess() {
   }, [orderId]);
 
   const amount = payment?.paidAmount || payment?.amount;
-  const applicationHref = orderId
-    ? `/payments/application?order=${encodeURIComponent(orderId)}`
-    : "/payments/application";
+  const recapHref = orderId
+    ? `/payments/recap?order=${encodeURIComponent(orderId)}`
+    : "/payments/recap";
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-20 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-          Step 1 of 3 · Payment success
+          Payment successful
         </p>
 
         <div className="relative mx-auto mt-8 flex size-28 items-center justify-center">
@@ -49,7 +49,7 @@ export default function PaymentSuccess() {
               ? `Your payment of $${amount} has been processed and our team will verify your payment.`
               : "Your payment has been processed and our team will verify your payment."}{" "}
           {!loading &&
-            "To complete your application, please review your recap and select your schedule appointment time."}
+            "Your payment recap is ready. Review your workshop details on the next page."}
         </p>
 
         {loading && <Loader2 className="mx-auto mt-6 size-6 animate-spin text-primary" />}
@@ -59,7 +59,7 @@ export default function PaymentSuccess() {
         )}
 
         <Button size="lg" className="mt-8 min-w-56 glow-primary font-bold uppercase tracking-wide" asChild>
-          <Link to={applicationHref}>Payment Successful!</Link>
+          <Link to={recapHref}>View Payment Recap</Link>
         </Button>
       </main>
     </div>

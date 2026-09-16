@@ -1,8 +1,9 @@
 import { FormEvent, ReactNode, useMemo, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { Check, Loader2 } from 'lucide-react';
 import { EducationApplicationSchema } from '@/shared/types';
 import { apiRequest } from '@/react-app/lib/api';
+import { useAuth } from '@/react-app/lib/auth';
 
 const THEME = '#465399';
 
@@ -160,6 +161,7 @@ function OptionList({
 }
 
 export default function EducationForm() {
+  const { user, loading } = useAuth();
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -167,6 +169,10 @@ export default function EducationForm() {
   const [submitError, setSubmitError] = useState('');
 
   const showOther = useMemo(() => form.toLearn.includes('Other'), [form.toLearn]);
+
+  if (!loading && user) {
+    return <Navigate to="/account" replace />;
+  }
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));

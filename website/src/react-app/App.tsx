@@ -10,7 +10,9 @@ import PaymentFailed from "@/react-app/pages/PaymentFailed";
 import PaymentStatus from "@/react-app/pages/PaymentStatus";
 import DiscoverPage from "@/react-app/pages/DiscoverPage";
 import Contact from "@/react-app/pages/Contact";
-import LearningPathApplication from "@/react-app/pages/LearningPathApplication";
+import PaymentRecap from "@/react-app/pages/PaymentRecap";
+import WorkshopApply from "@/react-app/pages/WorkshopApply";
+import Account from "@/react-app/pages/Account";
 import { AuthProvider } from "@/react-app/lib/auth";
 
 export default function App() {
@@ -22,11 +24,14 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/education" element={<EducationForm />} />
           <Route path="/trading-tools" element={<TradingToolsForm />} />
+          <Route path="/workshop" element={<WorkshopApply />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/checkout/:courseId" element={<Checkout />} />
           <Route path="/payments/success" element={<PaymentSuccess />} />
-          <Route path="/payments/application" element={<LearningPathApplication />} />
+          <Route path="/payments/application" element={<PaymentRecap />} />
+          <Route path="/payments/recap" element={<PaymentRecap />} />
           <Route path="/payments/failed" element={<PaymentFailed />} />
           <Route path="/payments/status/:merchantOrderId" element={<PaymentStatus />} />
           <Route path="/marketplace" element={<DiscoverPage />} />

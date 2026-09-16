@@ -4,7 +4,6 @@ const TICKER_ITEMS = [
   'Web3',
   'A.I',
   'Blockchain',
-  'Predictions',
   'Futures',
   'Spot',
   "CFD's",
@@ -22,7 +21,7 @@ function TickerContent({ id }: { id: string }) {
             {item}
           </span>
           <span className="text-foreground/60" aria-hidden="true">
-            {item === 'Blockchain' ? '-' : '•'}
+            {item}
           </span>
         </span>
       ))}

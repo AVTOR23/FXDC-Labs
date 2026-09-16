@@ -51,3 +51,40 @@ export async function fetchPaymentStatus(merchantOrderId: string) {
   );
   return response.data;
 }
+
+export type WorkshopApplication = {
+  id: string;
+  name: string;
+  username?: string;
+  email?: string;
+  telegram?: string;
+  whatsapp?: string;
+  trainingSetup?: string;
+  classSchedule?: string;
+  onsiteClassSchedule?: string;
+  language?: string;
+  languageOther?: string;
+  remarks?: string;
+  merchantOrderId?: string;
+  paymentAmount?: string;
+  courseTitle?: string;
+};
+
+export async function fetchMyWorkshopApplication(applicationId?: string) {
+  const query = applicationId ? `?applicationId=${encodeURIComponent(applicationId)}` : "";
+  const response = await apiRequest<WorkshopApplication>(`/api/learning-path-applications/me${query}`);
+  return response.data;
+}
+
+export async function attachWorkshopPayment(input: {
+  merchantOrderId: string;
+  paymentAmount?: string;
+  courseTitle?: string;
+  applicationId?: string;
+}) {
+  const response = await apiRequest<WorkshopApplication>("/api/learning-path-applications/me", {
+    method: "PATCH",
+    body: JSON.stringify(input),
+  });
+  return response.data;
+}

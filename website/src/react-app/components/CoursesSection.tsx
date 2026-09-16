@@ -12,6 +12,8 @@ import {
 import { Button } from '@/react-app/components/ui/button';
 import ProgramComparisonTables from '@/react-app/components/ProgramComparisonTables';
 import { Link } from 'react-router';
+import { useAuth } from '@/react-app/lib/auth';
+import { programCheckoutPath, workshopEntryPath } from '@/react-app/lib/workshop';
 
 const courses = [
   {
@@ -31,7 +33,6 @@ const courses = [
     originalPrice: '$150',
     cta: 'Start Learning',
     featured: false,
-    href: '/checkout/foundation',
   },
   {
     id: 'advance',
@@ -49,7 +50,6 @@ const courses = [
     price: '$225',
     cta: 'Enroll Now',
     featured: false,
-    href: '/checkout/advance',
   },
   {
     id: 'masterclass',
@@ -67,7 +67,6 @@ const courses = [
     price: '$885',
     cta: 'Enroll Now',
     featured: true,
-    href: '/checkout/masterclass',
   },
   {
     id: 'enhancement',
@@ -85,11 +84,12 @@ const courses = [
     price: '',
     cta: 'Notify Me',
     featured: false,
-    href: '/education',
   },
 ];
 
 export default function CoursesSection() {
+  const { user } = useAuth();
+  const loggedIn = Boolean(user);
   return (
     <section id="courses" className="relative py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/50 to-background" />
@@ -230,7 +230,7 @@ export default function CoursesSection() {
                   size="lg"
                   asChild
                 >
-                  <Link to={course.href}>
+                  <Link to={course.comingSoon ? '/#courses' : programCheckoutPath(course.id, loggedIn)}>
                     {course.cta}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
@@ -245,7 +245,7 @@ export default function CoursesSection() {
         <div className="mt-16 text-center">
           <p className="text-muted-foreground mb-4">Not sure which course is right for you?</p>
           <Button variant="outline" size="lg" asChild>
-            <Link to="/education">
+            <Link to={workshopEntryPath(loggedIn)}>
               Book a Free Consultation
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>

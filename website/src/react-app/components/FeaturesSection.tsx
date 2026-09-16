@@ -14,107 +14,112 @@ import {
   Users,
   Crown
 } from 'lucide-react';
-
-const features = [
-  
-  {
-    icon: BookOpen,
-    title: 'Foundations',
-    description: 'Master the fundamentals of Forex and Crypto trading. Learn market structure, analysis techniques, and the core FXDC methodology.',
-    category: 'Education',
-    href: '/#courses',
-    internal: true,
-  },
-  {
-    icon: Trophy,
-    title: 'Advanced',
-    description:
-      'The Advanced Program is an elite technical framework designed to take you beyond basic retail patterns. Master market microstructure, order flow mechanics, and institutional liquidity profiling to execute with high-probability precision.',
-    category: 'Education',
-    href: '/#courses',
-    internal: true,
-  },
-  {
-    icon: Crown,
-    title: 'Masterclass',
-    description:
-      'Discover the new level of Institutional grade technical trading approach and more comprehensive learning strategy method.',
-    category: 'Education',
-    href: '/#courses',
-    internal: true,
-  },
-  {
-    icon: Trophy,
-    title: 'Enhancement',
-    description: 'Soon to Come — Early Access Program',
-    category: 'Education',
-    href: '/#courses',
-    internal: true,
-    badge: 'Coming soon',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Live Trading Workshops',
-    description: 'Join real-time trading sessions with expert mentors. Watch, learn, and trade alongside professionals in live market conditions.',
-    category: 'Education',
-    highlight: true,
-    href: '/education',
-    internal: true,
-  },
-  
-  {
-    icon: Bot,
-    title: 'Automated Trading Service CEX - MT5',
-    description:
-      'Fully automated trading bots that helps you configure, optimize & analyze with high precision trading set-up within particular financial instruments. By our expert a.i algorithmic, we deploy backtested and live account data record for consistent profitable results 24/5 or 24/7 via MT5 or CEX.',
-    category: 'Trading Tools',
-    href: '/trading-tools',
-    internal: true,
-  },
-  {
-    icon: Bell,
-    title: 'Trading Signals',
-    description: 'Get free daily signals plus exclusive VIP alerts with precise entry, stop-loss, and take-profit levels from our analysis team.',
-    category: 'Trading Tools',
-    highlight: true,
-    href: '/trading-tools',
-    internal: true,
-  },
-  {
-    icon: Briefcase,
-    title: 'Account Management',
-    description: 'Let our experienced traders manage your capital. Professional AUM services with transparent reporting and competitive returns.',
-    category: 'Asset Management',
-    href: '/trading-tools',
-    internal: true,
-  },
-  {
-    icon: Rocket,
-    title: 'Web3 Incubator',
-    description: 'Launch your blockchain project with our sandbox program. Access incubation, acceleration, and mentorship for Web3 startups.',
-    category: 'Web3 Services',
-  },
-  {
-    icon: Gift,
-    title: 'Airdrop Alerts',
-    description: 'Never miss profitable airdrops. Our Crypto-as-a-Service keeps you informed about the best opportunities in the ecosystem.',
-    category: 'Web3 Services',
-  },
-  {
-    icon: Megaphone,
-    title: 'Digital Marketing',
-    description: 'Campaign-as-a-Service for crypto projects. Full-stack marketing solutions to amplify your project\'s reach and engagement.',
-    category: 'Web3 Services',
-  },
-  {
-    icon: ArrowLeftRight,
-    title: 'OTC Trading Desk',
-    description: 'Seamless on/off ramp services for large transactions. Convert between fiat and crypto with competitive rates and privacy.',
-    category: 'Web3 Services',
-  },
-];
+import { useAuth } from '@/react-app/lib/auth';
+import { programCheckoutPath, toolsEntryPath, workshopEntryPath } from '@/react-app/lib/workshop';
 
 export default function FeaturesSection() {
+  const { user } = useAuth();
+  const loggedIn = Boolean(user);
+  const workshopHref = workshopEntryPath(loggedIn);
+  const toolsHref = toolsEntryPath(loggedIn);
+
+  const features = [
+    {
+      icon: BookOpen,
+      title: 'Foundations',
+      description: 'Master the fundamentals of Forex and Crypto trading. Learn market structure, analysis techniques, and the core FXDC methodology.',
+      category: 'Education',
+      href: programCheckoutPath('foundation', loggedIn),
+      internal: true,
+    },
+    {
+      icon: Trophy,
+      title: 'Advanced',
+      description:
+        'The Advanced Program is an elite technical framework designed to take you beyond basic retail patterns. Master market microstructure, order flow mechanics, and institutional liquidity profiling to execute with high-probability precision.',
+      category: 'Education',
+      href: programCheckoutPath('advance', loggedIn),
+      internal: true,
+    },
+    {
+      icon: Crown,
+      title: 'Masterclass',
+      description:
+        'Discover the new level of Institutional grade technical trading approach and more comprehensive learning strategy method.',
+      category: 'Education',
+      href: programCheckoutPath('masterclass', loggedIn),
+      internal: true,
+    },
+    {
+      icon: Trophy,
+      title: 'Enhancement',
+      description: 'Soon to Come — Early Access Program',
+      category: 'Education',
+      href: '/#courses',
+      internal: true,
+      badge: 'Coming soon',
+    },
+    {
+      icon: GraduationCap,
+      title: 'Live Trading Workshops',
+      description: 'Join real-time trading sessions with expert mentors. Watch, learn, and trade alongside professionals in live market conditions.',
+      category: 'Education',
+      highlight: true,
+      href: workshopHref,
+      internal: true,
+    },
+    {
+      icon: Bot,
+      title: 'Automated Trading Service CEX - MT5',
+      description:
+        'Fully automated trading bots that helps you configure, optimize & analyze with high precision trading set-up within particular financial instruments. By our expert a.i algorithmic, we deploy backtested and live account data record for consistent profitable results 24/5 or 24/7 via MT5 or CEX.',
+      category: 'Trading Tools',
+      href: toolsHref,
+      internal: true,
+    },
+    {
+      icon: Bell,
+      title: 'Trading Signals',
+      description: 'Get free daily signals plus exclusive VIP alerts with precise entry, stop-loss, and take-profit levels from our analysis team.',
+      category: 'Trading Tools',
+      highlight: true,
+      href: toolsHref,
+      internal: true,
+    },
+    {
+      icon: Briefcase,
+      title: 'Account Management',
+      description: 'Let our experienced traders manage your capital. Professional AUM services with transparent reporting and competitive returns.',
+      category: 'Asset Management',
+      href: toolsHref,
+      internal: true,
+    },
+    {
+      icon: Rocket,
+      title: 'Web3 Incubator',
+      description: 'Launch your blockchain project with our sandbox program. Access incubation, acceleration, and mentorship for Web3 startups.',
+      category: 'Web3 Services',
+    },
+    {
+      icon: Gift,
+      title: 'Airdrop Alerts',
+      description: 'Never miss profitable airdrops. Our Crypto-as-a-Service keeps you informed about the best opportunities in the ecosystem.',
+      category: 'Web3 Services',
+    },
+    {
+      icon: Megaphone,
+      title: 'Digital Marketing',
+      description: 'Campaign-as-a-Service for crypto projects. Full-stack marketing solutions to amplify your project\'s reach and engagement.',
+      category: 'Web3 Services',
+    },
+    {
+      icon: ArrowLeftRight,
+      title: 'OTC Trading Desk',
+      description: 'Seamless on/off ramp services for large transactions. Convert between fiat and crypto with competitive rates and privacy.',
+      category: 'Web3 Services',
+    },
+  ];
+
   return (
     <section id="features" className="relative py-24 lg:py-32 overflow-hidden">
       {/* Background Effects */}
