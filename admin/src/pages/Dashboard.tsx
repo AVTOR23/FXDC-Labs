@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { GraduationCap, CreditCard, Image, Mail, Users, Wrench } from "lucide-react";
+import { GraduationCap, CreditCard, Image, Mail, ClipboardList, Users, Wrench } from "lucide-react";
 import { apiRequest } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 
@@ -17,6 +17,7 @@ type Stats = {
   education: StatusCounts;
   tradingTools: StatusCounts;
   contact: StatusCounts;
+  learningPath: StatusCounts;
   media: { total: number };
   payments: { total: number; pendingReview: number };
 };
@@ -72,6 +73,14 @@ export default function Dashboard() {
       href: "/contact",
       icon: Mail,
       color: "bg-[#FF563014] text-[#B71D18]",
+    },
+    {
+      title: "Learning path forms",
+      value: stats.learningPath?.total ?? 0,
+      detail: `${stats.learningPath?.pending ?? 0} pending`,
+      href: "/learning-path",
+      icon: ClipboardList,
+      color: "bg-[#00A76F14] text-[#007867]",
     },
     {
       title: "Media files",

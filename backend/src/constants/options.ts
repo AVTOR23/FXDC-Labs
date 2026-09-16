@@ -35,3 +35,30 @@ export const LOOKING_FOR_OPTIONS = [
 ] as const;
 
 export const DUPLICATE_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+export const TRAINING_SETUP_OPTIONS = [
+  "Online Class",
+  "Face to Face",
+  "Both are Good",
+] as const;
+
+export const CLASS_SCHEDULE_OPTIONS = [
+  "Friday 7:00-9:00pm",
+  "Saturday 7:00-9:00pm",
+  "Sunday 7:00-9:00pm",
+] as const;
+
+export const LEGACY_CLASS_SCHEDULE_OPTIONS = [
+  "Saturday 1PM GMT+4",
+  "Saturday 4PM GMT+4",
+  "Sunday 1PM GMT+4",
+] as const;
+
+export const CLASS_SCHEDULE_ENUM = [
+  ...CLASS_SCHEDULE_OPTIONS,
+  ...LEGACY_CLASS_SCHEDULE_OPTIONS,
+] as const;
+
+export const ONSITE_CLASS_SCHEDULE_OPTIONS = ["Saturday 7:00", "Sunday 7:00"] as const;
+
+export const LANGUAGE_OPTIONS = ["English", "Chinese", "Other"] as const;

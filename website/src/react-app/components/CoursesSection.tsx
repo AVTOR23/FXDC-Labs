@@ -10,7 +10,10 @@ import {
   Lock,
 } from 'lucide-react';
 import { Button } from '@/react-app/components/ui/button';
+import ProgramComparisonTables from '@/react-app/components/ProgramComparisonTables';
 import { Link } from 'react-router';
+import { useAuth } from '@/react-app/lib/auth';
+import { programCheckoutPath, workshopEntryPath } from '@/react-app/lib/workshop';
 
 const courses = [
   {
@@ -18,7 +21,8 @@ const courses = [
     icon: BookOpen,
     badge: 'Best for Beginners',
     badgeColor: 'bg-primary/20 text-primary',
-    title: 'Foundation Course',
+    stars: 1,
+    title: 'Foundations',
     subtitle: 'Master the Fundamentals',
     description:
       'Build a rock-solid trading foundation. Learn market structure, technical analysis basics, risk management, and the core FXDC methodology.',
@@ -29,31 +33,14 @@ const courses = [
     originalPrice: '$150',
     cta: 'Start Learning',
     featured: false,
-    href: '/checkout/foundation',
-  },
-  {
-    id: 'masterclass',
-    icon: Crown,
-    badge: 'Most Popular',
-    badgeColor: 'bg-accent/20 text-accent',
-    title: 'Masterclass Program',
-    subtitle: 'Advanced Strategies & Methods',
-    description:
-      'Elevate your trading with institutional-grade strategies. Deep-dive into advanced setups, multi-timeframe analysis, and high-probability trading systems.',
-    duration: '1 week',
-    students: '10-15+ Video',
-    modules: '10+ Modules',
-    price: '$885',
-    cta: 'Enroll Now',
-    featured: true,
-    href: '/checkout/masterclass',
   },
   {
     id: 'advance',
     icon: Trophy,
     badge: 'Elite Track',
     badgeColor: 'bg-primary/20 text-primary',
-    title: 'Advance Program',
+    stars: 2,
+    title: 'Advanced',
     subtitle: 'Institutional Precision',
     description:
       'The Advanced Program is an elite technical framework designed to take you beyond basic retail patterns. Master market microstructure, order flow mechanics, and institutional liquidity profiling to execute with high-probability precision.',
@@ -63,14 +50,31 @@ const courses = [
     price: '$225',
     cta: 'Enroll Now',
     featured: false,
-    href: '/checkout/advance',
+  },
+  {
+    id: 'masterclass',
+    icon: Crown,
+    badge: 'Most Popular',
+    badgeColor: 'bg-accent/20 text-accent',
+    stars: 3,
+    title: 'Masterclass',
+    subtitle: 'Advanced Strategies & Methods',
+    description:
+      'Elevate your trading with institutional-grade strategies. Deep-dive into advanced setups, multi-timeframe analysis, and high-probability trading systems.',
+    duration: '1 week',
+    students: '10-15+ Video',
+    modules: '10+ Modules',
+    price: '$885',
+    cta: 'Enroll Now',
+    featured: true,
   },
   {
     id: 'enhancement',
     icon: Lock,
     badge: 'Coming Soon',
     badgeColor: 'bg-emerald-500/20 text-emerald-400',
-    title: 'Enhancement Program',
+    stars: 4,
+    title: 'Enhancement',
     subtitle: 'Soon to Come',
     description: 'Early Access Program',
     comingSoon: true,
@@ -80,11 +84,12 @@ const courses = [
     price: '',
     cta: 'Notify Me',
     featured: false,
-    href: '/education',
   },
 ];
 
 export default function CoursesSection() {
+  const { user } = useAuth();
+  const loggedIn = Boolean(user);
   return (
     <section id="courses" className="relative py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/50 to-background" />
@@ -95,15 +100,33 @@ export default function CoursesSection() {
         <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium mb-6">
             <Zap className="w-4 h-4" />
-            Transform Your Trading Journey
+            F-A-M-E Program
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
             Choose Your
             <span className="text-gradient"> Learning Path</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Structured programs designed to take you from beginner to professional trader. Learn at your own pace with lifetime access.
+            Foundations, Advanced, Masterclass, and Enhancement — a structured path from beginner to professional trader.
           </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {[
+              { letter: 'F', label: 'Foundations' },
+              { letter: 'A', label: 'Advanced' },
+              { letter: 'M', label: 'Masterclass' },
+              { letter: 'E', label: 'Enhancement' },
+            ].map((step, index) => (
+              <div key={step.letter} className="flex items-center gap-2 sm:gap-3">
+                {index > 0 && <span className="hidden h-px w-6 bg-border sm:block" />}
+                <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
+                  <span className="flex size-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                    {step.letter}
+                  </span>
+                  <span className="text-xs font-medium sm:text-sm">{step.label}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
@@ -137,6 +160,11 @@ export default function CoursesSection() {
                     />
                   </div>
                   <div>
+                    <div className="mb-1 flex items-center gap-1 text-accent">
+                      {Array.from({ length: course.stars }).map((_, index) => (
+                        <Star key={index} className="size-3.5 fill-current" />
+                      ))}
+                    </div>
                     <h3 className="font-display text-xl font-bold">{course.title}</h3>
                     <p className="text-sm text-muted-foreground">{course.subtitle}</p>
                   </div>
@@ -202,7 +230,7 @@ export default function CoursesSection() {
                   size="lg"
                   asChild
                 >
-                  <Link to={course.href}>
+                  <Link to={course.comingSoon ? '/#courses' : programCheckoutPath(course.id, loggedIn)}>
                     {course.cta}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
@@ -212,10 +240,12 @@ export default function CoursesSection() {
           ))}
         </div>
 
+        <ProgramComparisonTables />
+
         <div className="mt-16 text-center">
           <p className="text-muted-foreground mb-4">Not sure which course is right for you?</p>
           <Button variant="outline" size="lg" asChild>
-            <Link to="/education">
+            <Link to={workshopEntryPath(loggedIn)}>
               Book a Free Consultation
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>

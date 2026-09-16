@@ -42,6 +42,12 @@ import {
   updateContact,
 } from "../controllers/contact.controller.js";
 import {
+  getLearningPath,
+  listLearningPath,
+  removeLearningPath,
+  updateLearningPath,
+} from "../controllers/learningPathApplication.controller.js";
+import {
   getAdminPayment,
   getAdminPaymentStats,
   listAdminPaymentEvents,
@@ -137,6 +143,28 @@ router.delete(
   "/contact-submissions/:id",
   validate(idParamsSchema, "params"),
   removeContact
+);
+
+router.get(
+  "/learning-path-applications",
+  validate(paginationQuerySchema, "query"),
+  listLearningPath
+);
+router.get(
+  "/learning-path-applications/:id",
+  validate(idParamsSchema, "params"),
+  getLearningPath
+);
+router.patch(
+  "/learning-path-applications/:id",
+  validate(idParamsSchema, "params"),
+  validate(applicationUpdateSchema),
+  updateLearningPath
+);
+router.delete(
+  "/learning-path-applications/:id",
+  validate(idParamsSchema, "params"),
+  removeLearningPath
 );
 
 router.get("/payments/stats", getAdminPaymentStats);

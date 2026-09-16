@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router";
-import { ArrowRight, Bitcoin, Loader2, ShieldCheck } from "lucide-react";
+import { ArrowRight, CreditCard, Loader2, ShieldCheck } from "lucide-react";
 import Navbar from "@/react-app/components/Navbar";
 import { Button } from "@/react-app/components/ui/button";
 import { useAuth } from "@/react-app/lib/auth";
@@ -44,8 +44,8 @@ export default function Checkout() {
       <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="rounded-2xl border border-border bg-card p-8 shadow-xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm text-primary">
-            <Bitcoin className="size-4" />
-            Secure crypto checkout via CipherBC
+            <CreditCard className="size-4" />
+            CipherBC checkout · Pay via debit, credit, or crypto
           </div>
 
           {loading || authLoading ? (
@@ -75,11 +75,11 @@ export default function Checkout() {
               <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" />
-                  Payment is processed on CipherBC hosted cashier with RSA-signed API requests.
+                  Payment is processed on the CipherBC hosted cashier. You can pay by debit, credit, or crypto.
                 </li>
                 <li className="flex items-start gap-2">
                   <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" />
-                  You will choose crypto network and pay the exact amount shown on the cashier.
+                  Choose your method on the next screen and pay the exact amount shown on the cashier.
                 </li>
               </ul>
 
@@ -92,7 +92,7 @@ export default function Checkout() {
                 onClick={() => void startPayment()}
               >
                 {submitting ? <Loader2 className="animate-spin" /> : null}
-                Pay with Crypto
+                Continue to Payment
                 <ArrowRight className="ml-2 size-4" />
               </Button>
             </>

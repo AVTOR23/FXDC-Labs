@@ -7,29 +7,6 @@ import { ContactSubmissionSchema } from "@/shared/types";
 import { apiRequest } from "@/react-app/lib/api";
 import { cn } from "@/react-app/lib/utils";
 
-const LOCATIONS = [
-  {
-    title: "Forex Courses London",
-    address:
-      "Financial Markets Online, Level 5, St Claire House, 30-33 Minories, London, City of London, EC3N 1DD",
-    phone: "+44 (0) 20 3982 6284",
-    email: "info@financialmarketsonline.com",
-    directions:
-      "https://www.google.com/maps/search/?api=1&query=Level+5+St+Claire+House+30-33+Minories+London+EC3N+1DD",
-  },
-  {
-    title: "Forex Courses Manchester",
-    phone: "+44 (0) 20 3982 6284",
-    email: "info@financialmarketsonline.com",
-  },
-  {
-    title: "Forex Courses Dubai",
-    address:
-      "Financial Markets Trading Training Institute DMCC, Unit No: 30-01-BA1553, DMCC Business Centre JLT, Dubai",
-    email: "info@financialmarketsonline.com",
-  },
-];
-
 const INITIAL = {
   name: "",
   email: "",
@@ -91,52 +68,11 @@ export default function Contact() {
       <Navbar />
       <main className="pt-16 lg:pt-20">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary">
-            Financial Markets Online
-          </p>
-          <h1 className="mt-3 font-display text-5xl font-bold uppercase tracking-wide sm:text-6xl">
+          <h1 className="font-display text-5xl font-bold uppercase tracking-wide sm:text-6xl">
             Contact
           </h1>
 
-          <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_minmax(0,420px)] lg:gap-16">
-            <div className="space-y-10">
-              {LOCATIONS.map((location) => (
-                <section key={location.title}>
-                  <h2 className="font-display text-lg font-bold uppercase tracking-wide text-primary">
-                    {location.title}
-                  </h2>
-                  {location.address && (
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-foreground/90">{location.address}</p>
-                  )}
-                  {location.phone && (
-                    <p className="mt-3 text-sm">
-                      <span className="font-semibold text-primary">T:</span>{" "}
-                      <a href={`tel:${location.phone.replace(/\s/g, "")}`} className="hover:underline">
-                        {location.phone}
-                      </a>
-                    </p>
-                  )}
-                  <p className="mt-2 text-sm">
-                    <span className="font-semibold text-primary">E:</span>{" "}
-                    <a href={`mailto:${location.email}`} className="hover:underline">
-                      {location.email}
-                    </a>
-                  </p>
-                  {location.directions && (
-                    <a
-                      href={location.directions}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-4 inline-flex border border-foreground px-6 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-foreground hover:text-background"
-                    >
-                      Directions
-                    </a>
-                  )}
-                </section>
-              ))}
-            </div>
-
-            <div>
+          <div className="mt-12 max-w-[420px]">
               {submitted ? (
                 <div className="border border-border bg-card p-8 text-center">
                   <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary/15 text-primary">
@@ -213,7 +149,6 @@ export default function Contact() {
                   </button>
                 </form>
               )}
-            </div>
           </div>
         </div>
       </main>

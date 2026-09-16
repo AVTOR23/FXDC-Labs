@@ -3,6 +3,7 @@ import { ArrowRight, Play, Users, Award, BarChart3 } from 'lucide-react';
 import { Button } from '@/react-app/components/ui/button';
 import { useAuth } from '@/react-app/lib/auth';
 import { cn } from '@/react-app/lib/utils';
+import { toolsEntryPath, workshopEntryPath } from '@/react-app/lib/workshop';
 
 const stats = [
   { icon: Users, value: '5,000+', label: 'Active Traders' },
@@ -12,15 +13,17 @@ const stats = [
 
 export default function HeroSection() {
   const { user } = useAuth();
+  const workshopHref = workshopEntryPath(Boolean(user));
+  const toolsHref = toolsEntryPath(Boolean(user));
   const badgeClassName =
-    "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium mb-6";
+    "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-bold uppercase tracking-wide mb-6";
   const journeyBadge = (
     <>
       <span className="relative flex h-2 w-2">
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
         <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
       </span>
-      Start my Online Trading Journey Today!
+      START YOUR ONLINE TRADING CLASS NOW
     </>
   );
 
@@ -57,13 +60,9 @@ export default function HeroSection() {
           {/* Left Content */}
           <div className="text-center lg:text-left">
             {/* Badge */}
-            {user ? (
-              <div className={badgeClassName}>{journeyBadge}</div>
-            ) : (
-              <Link to="/sign-up" className={cn(badgeClassName, "hover:bg-primary/20 transition-colors")}>
-                {journeyBadge}
-              </Link>
-            )}
+            <Link to={workshopHref} className={cn(badgeClassName, "hover:bg-primary/20 transition-colors")}>
+              {journeyBadge}
+            </Link>
 
             {/* Headline */}
             <h1 className="mb-6 inline-flex flex-col items-center gap-1 font-display font-bold leading-tight">
@@ -84,13 +83,13 @@ export default function HeroSection() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
               <Button size="lg" className="glow-primary text-base px-8" asChild>
-                <Link to="/education">
+                <Link to={workshopHref}>
                   Enroll Now
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="text-base px-8 group" asChild>
-                <Link to="/trading-tools">
+                <Link to={toolsHref}>
                   <Play className="w-5 h-5 mr-2 group-hover:text-primary transition-colors" />
                   Watch Free Lesson
                 </Link>

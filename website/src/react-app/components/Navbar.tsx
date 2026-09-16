@@ -307,10 +307,7 @@ export default function Navbar() {
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem asChild>
-                    <Link to="/education">Education form</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/trading-tools">Trading tools form</Link>
+                    <Link to="/account">Courses & Tools</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => void logout()}>Sign out</DropdownMenuItem>
@@ -368,6 +365,11 @@ export default function Navbar() {
                       <a href={ADMIN_DASHBOARD_URL}>Admin dashboard</a>
                     </Button>
                   )}
+                  <Button variant="ghost" size="sm" className="w-full justify-center" asChild>
+                    <Link to="/account" onClick={closeMenu}>
+                      Courses & Tools
+                    </Link>
+                  </Button>
                   <Button size="sm" className="w-full justify-center" onClick={() => void logout()}>
                     Sign out
                   </Button>

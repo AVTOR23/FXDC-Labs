@@ -3,9 +3,14 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { mochaPlugins } from "@getmocha/vite-plugins";
 
+const isVercel = process.env.VERCEL === "1";
+
 export default defineConfig({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  plugins: [...mochaPlugins(process.env as any), react()],
+  plugins: [
+    // Cloudflare/Mocha worker plugins are for Wrangler, not Vercel static hosting.
+    ...(isVercel ? [] : mochaPlugins(process.env as never)),
+    react(),
+  ],
   server: {
     allowedHosts: true,
     proxy: {
@@ -16,6 +21,8 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: "dist",
+    emptyOutDir: true,
     chunkSizeWarningLimit: 5000,
   },
   resolve: {

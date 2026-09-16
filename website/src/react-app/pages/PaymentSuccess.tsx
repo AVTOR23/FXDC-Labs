@@ -1,44 +1,65 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import Navbar from "@/react-app/components/Navbar";
 import { Button } from "@/react-app/components/ui/button";
-import { fetchPaymentStatus } from "@/react-app/lib/payments";
+import { fetchPaymentStatus, type PaymentRecord } from "@/react-app/lib/payments";
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("order") ?? "";
   const [loading, setLoading] = useState(Boolean(orderId));
-  const [status, setStatus] = useState("");
+  const [payment, setPayment] = useState<PaymentRecord | null>(null);
 
   useEffect(() => {
     if (!orderId) return;
 
     fetchPaymentStatus(orderId)
-      .then((payment) => setStatus(payment.status))
-      .catch(() => setStatus("pending"))
+      .then((item) => setPayment(item))
+      .catch(() => setPayment(null))
       .finally(() => setLoading(false));
   }, [orderId]);
+
+  const amount = payment?.paidAmount || payment?.amount;
+  const recapHref = orderId
+    ? `/payments/recap?order=${encodeURIComponent(orderId)}`
+    : "/payments/recap";
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-20 text-center">
-        <CheckCircle2 className="mx-auto size-16 text-primary" />
-        <h1 className="mt-6 font-display text-3xl font-bold">Payment received</h1>
-        <p className="mt-3 text-muted-foreground">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          Payment successful
+        </p>
+
+        <div className="relative mx-auto mt-8 flex size-28 items-center justify-center">
+          <span className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
+          <span className="absolute inset-2 rounded-full bg-primary/10" />
+          <span className="relative flex size-20 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-[0_0_40px_hsl(160_84%_39%/0.45)]">
+            <Check className="size-10" strokeWidth={3} />
+          </span>
+        </div>
+
+        <h1 className="mt-8 font-display text-3xl font-bold sm:text-4xl">Payment Successful!</h1>
+        <p className="mt-4 text-sm text-muted-foreground sm:text-base">
           {loading
             ? "Confirming your payment with CipherBC..."
-            : status === "completed" || status === "overpayment"
-              ? "Your course access has been activated."
-              : "Your payment is being processed. This can take a few minutes on-chain."}
+            : amount
+              ? `Your payment of $${amount} has been processed and our team will verify your payment.`
+              : "Your payment has been processed and our team will verify your payment."}{" "}
+          {!loading &&
+            "Your payment recap is ready. Review your workshop details on the next page."}
         </p>
+
         {loading && <Loader2 className="mx-auto mt-6 size-6 animate-spin text-primary" />}
+
         {orderId && (
           <p className="mt-4 text-xs text-muted-foreground">Order: {orderId}</p>
         )}
-        <Button asChild className="mt-8">
-          <Link to="/">Back to home</Link>
+
+        <Button size="lg" className="mt-8 min-w-56 glow-primary font-bold uppercase tracking-wide" asChild>
+          <Link to={recapHref}>View Payment Recap</Link>
         </Button>
       </main>
     </div>

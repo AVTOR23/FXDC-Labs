@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/react-app/components/ui/button";
 import { Input } from "@/react-app/components/ui/input";
@@ -11,6 +11,8 @@ import AuthLayout from "@/react-app/components/AuthLayout";
 export default function SignUp() {
   const { user, loading, register } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: string } | null)?.from || "/";
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -22,7 +24,7 @@ export default function SignUp() {
   const [error, setError] = useState("");
 
   if (!loading && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={from} replace />;
   }
 
   const onSubmit = async (event: FormEvent) => {
@@ -43,7 +45,7 @@ export default function SignUp() {
         password,
         confirmPassword,
       });
-      navigate("/", { replace: true });
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create account.");
     } finally {
@@ -139,7 +141,7 @@ export default function SignUp() {
 
       <p className="mt-6 text-center text-sm text-muted-foreground lg:text-left">
         Already have an account?{" "}
-        <Link to="/sign-in" className="font-medium text-primary hover:underline">
+        <Link to="/sign-in" state={{ from }} className="font-medium text-primary hover:underline">
           Sign in
         </Link>
       </p>
